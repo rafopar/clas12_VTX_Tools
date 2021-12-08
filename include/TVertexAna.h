@@ -18,6 +18,7 @@
 // ===== Vertex sub includes =====
 #include <BankStructures.h>
 #include <vector>
+#include <map>
 
 class TVertexAna {
 public:
@@ -26,9 +27,9 @@ public:
     virtual ~TVertexAna();
 
     TCVTTrack* GetCVTTrack(int); // Return the pointer to the "i-th" element of the vector TCVTTrack
-    TBMTadc* GetBMTadc(int); // Return the pointer to the "i-th" element of the vector v_BMTadcs
-    TBMTRecHits* GetBMTRecHit(int); // Return the pointer to the "i-th" element of the vector v_BMTRecHits
-    TBMTRecClusters* GetBMTRecCluster(int); // Return the pointer to the "i-th" element of the vector v_BMTRecClusters
+    TBMTadc* GetBMTadc(int); // Return the pointer to the TBMTadc, where the argument is the index of the element in the bank
+    TBMTRecHit* GetBMTRecHit(int); // Return the pointer to the TBMTRecHit, where the argument is the hitID of the hit
+    TBMTRecCluster* GetBMTRecCluster(int); // Return the pointer to the TBMTRecCluster, where the argument is the KEY (ID) of the TBMTRecCluster
 
     void ReadEvent(hipo::event&); // Read banks
 
@@ -36,13 +37,20 @@ public:
      * Getter Methods
      */
     int GetNBMTADC() {
-        return v_BMTadcs.size();
+        return m_BMTadcs.size();
     };
 
     int GetNBMTRecHits() {
-        return v_BMTRecHits.size();
+        return m_BMTRecHits.size();
     };
     
+    int GetNBMTRecCrosses(){
+        return m_BMTRecCrosses.size();
+    }
+    
+    std::map<int, TBMTRecHit> * GetBMTRecHits(){
+        return &m_BMTRecHits;
+    }
     
 
 private:
@@ -58,9 +66,10 @@ private:
     int nFMTHits; // The number of FMT hits
 
     std::vector<TCVTTrack> v_CVTTracks; // Vector of TCVTTracks in the event
-    std::vector<TBMTadc> v_BMTadcs; // Vector of TBMTadcs in the event
-    std::vector<TBMTRecHits> v_BMTRecHits; // Vector of TBMTRecHits in the event
-    std::vector<TBMTRecClusters> v_BMTRecClusters; // Vector of TBMTRecClusters in the event
+    std::map<int, TBMTadc> m_BMTadcs; // Map of TBMTadcs in the event, where the key of the map is the index of the adc hit in the bank
+    std::map<int, TBMTRecHit> m_BMTRecHits; // Map of TBMTRecHits in the event, where the key of the map is the hitID
+    std::map<int, TBMTRecCluster> m_BMTRecClusters; // Map of TBMTRecClusters in the event, where the key of the map is the ID of the cluster
+    std::map<int, TBMTRecCross> m_BMTRecCrosses; // Map of TBMTRecCross in the event, where the key of the map is the ID of the cross
     hipo::dictionary fDict; // Hipo dictionary for the file
 
     hipo::event *fEv; // Current Event
@@ -88,6 +97,7 @@ private:
     int ReadBank_BMT_adc();
     int ReadBank_BMTRec_Hits();
     int ReadBank_BMTRec_Clusters();
+    int ReadBank_BMTRec_Crosses();
 
 };
 

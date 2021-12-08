@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <map>
 #include "TVertexAna.h"
 
 TVertexAna::TVertexAna(hipo::dictionary &aDict) {
@@ -46,16 +47,17 @@ void TVertexAna::ReadEvent(hipo::event &ev) {
     /*
      * Cleaning everything from previous event
      */
-    v_BMTadcs.clear();
-    v_BMTadcs.shrink_to_fit();
+    m_BMTadcs.clear();
     v_CVTTracks.clear();
     v_CVTTracks.shrink_to_fit();
-    v_BMTRecHits.clear();
-    v_BMTRecHits.shrink_to_fit();
+    m_BMTRecHits.clear();
+    m_BMTRecClusters.clear();
+    m_BMTRecCrosses.clear();
 
     nBMTadc = ReadBank_BMT_adc();
     nBMTRecHits = ReadBank_BMTRec_Hits();
-
+    nBMTRecClusters = ReadBank_BMTRec_Clusters();
+    nBMTCrosses = ReadBank_BMTRec_Crosses();
 }
 
 int TVertexAna::ReadBank_BMT_adc() {
@@ -76,7 +78,7 @@ int TVertexAna::ReadBank_BMT_adc() {
         curBMTadc.time = bBMT_adc.getFloat("time", i);
         curBMTadc.timestamp = bBMT_adc.getLong("timestamp", i);
 
-        v_BMTadcs.push_back(curBMTadc);
+        m_BMTadcs[i + 1] = curBMTadc;
     }
 
     return nBMTadc;
@@ -88,7 +90,7 @@ int TVertexAna::ReadBank_BMTRec_Hits() {
     nBMTRecHits = bBMTRec_Hits.getRows();
 
     for (int i = 0; i < nBMTRecHits; i++) {
-        TBMTRecHits curBMTRecHit;
+        TBMTRecHit curBMTRecHit;
 
         curBMTRecHit.ID = bBMTRec_Hits.getInt("ID", i);
         curBMTRecHit.clusterID = bBMTRec_Hits.getInt("clusterID", i);
@@ -99,8 +101,7 @@ int TVertexAna::ReadBank_BMTRec_Hits() {
         curBMTRecHit.trkID = bBMTRec_Hits.getInt("trkID", i);
         curBMTRecHit.trkingStat = bBMTRec_Hits.getInt("trkingStat", i);
 
-        v_BMTRecHits.push_back(curBMTRecHit);
-
+        m_BMTRecHits[curBMTRecHit.ID] = curBMTRecHit;
     }
 
     return nBMTRecHits;
@@ -112,7 +113,7 @@ int TVertexAna::ReadBank_BMTRec_Clusters() {
     nBMTRecClusters = bBMTRec_Clusters.getRows();
 
     for (int i = 0; i < nBMTRecClusters; i++) {
-        TBMTRecClusters curBMTRecCluster;
+        TBMTRecCluster curBMTRecCluster;
 
         curBMTRecCluster.ETot = bBMTRec_Clusters.getFloat("Etot", i);
         curBMTRecCluster.Hit1_ID = bBMTRec_Clusters.getInt("hit1_ID", i);
@@ -131,41 +132,88 @@ int TVertexAna::ReadBank_BMTRec_Clusters() {
         curBMTRecCluster.size = bBMTRec_Clusters.getInt("size", i);
         curBMTRecCluster.trkID = bBMTRec_Clusters.getInt("trkID", i);
 
-        v_BMTRecClusters.push_back(curBMTRecCluster);
+        m_BMTRecClusters[curBMTRecCluster.ID] = curBMTRecCluster;
     }
 
     return nBMTRecClusters;
 }
 
+int TVertexAna::ReadBank_BMTRec_Crosses() {
+    fEv->getStructure(bBMTRec_Crosses);
+
+    nBMTCrosses = bBMTRec_Crosses.getRows();
+
+    for (int i = 0; i < nBMTCrosses; i++) {
+        TBMTRecCross curBMTCross;
+        curBMTCross.Cluster1_ID = bBMTRec_Crosses.getInt("Cluster1_ID", i);
+        curBMTCross.Cluster2_ID = bBMTRec_Crosses.getInt("Cluster2_ID", i);
+        curBMTCross.ID = bBMTRec_Crosses.getInt("ID", i);
+        curBMTCross.err_x = bBMTRec_Crosses.getFloat("err_x", i);
+        curBMTCross.err_y = bBMTRec_Crosses.getFloat("err_y", i);
+        curBMTCross.err_z = bBMTRec_Crosses.getFloat("err_z", i);
+        curBMTCross.region = bBMTRec_Crosses.getInt("region", i);
+        curBMTCross.sector = bBMTRec_Crosses.getInt("sector", i);
+        curBMTCross.trkID = bBMTRec_Crosses.getInt("trkID", i);
+        curBMTCross.ux = bBMTRec_Crosses.getFloat("ux", i);
+        curBMTCross.uy = bBMTRec_Crosses.getFloat("uy", i);
+        curBMTCross.uz = bBMTRec_Crosses.getFloat("uz", i);
+        curBMTCross.x = bBMTRec_Crosses.getFloat("x", i);
+        curBMTCross.y = bBMTRec_Crosses.getFloat("y", i);
+        curBMTCross.z = bBMTRec_Crosses.getFloat("z", i);
+        
+        m_BMTRecCrosses[curBMTCross.ID] = curBMTCross;
+    }
+
+    return nBMTCrosses;
+}
+
 TBMTadc * TVertexAna::GetBMTadc(int aind) {
 
-    if (aind >= v_BMTadcs.size() || aind < 0) {
-        std::cout << "The index is " << aind << "   which is outside of boundaries of the vector 'v_BMTadcs' having the size " << v_BMTadcs.size() << std::endl;
-        std::cout << "Exiting" << std::endl;
-        exit(1);
+    if (m_BMTadcs.find(aind) == m_BMTadcs.end()) {
+        std::cout << " The map m_BMTadcs doesn't have an entry with index = " << aind << std::endl;
+        std::cout << "Elements of the map are    ";
     }
+    for (const auto element : m_BMTadcs) {
+        std::cout << element.first << "   ";
+    }
+    std::cout << std::endl << "Exiting" << std::endl;
+    exit(1);
 
-    return &v_BMTadcs.at(aind);
+    return &m_BMTadcs.at(aind);
 }
 
-TBMTRecHits * TVertexAna::GetBMTRecHit(int aind) {
+TBMTRecHit * TVertexAna::GetBMTRecHit(int aHitID) {
 
-    if (aind >= v_BMTRecHits.size() || aind < 0) {
-        std::cout << "The index is " << aind << "   which is outside of boundaries of the vector 'v_BMTRecHits' having the size " << v_BMTRecHits.size() << std::endl;
-        std::cout << "Exiting" << std::endl;
+    if (m_BMTRecHits.find(aHitID) == m_BMTRecHits.end()) {
+        std::cout << " The map m_BMTRecHits doesn't have an entry with HitID = " << aHitID << std::endl;
+        std::cout << "Elements of the map are    ";
+
+        for (const auto element : m_BMTRecHits) {
+            std::cout << element.first << "   ";
+        }
+
+        std::cout << std::endl << "Exiting" << std::endl;
         exit(1);
     }
 
-    return &v_BMTRecHits.at(aind);
+
+    return &m_BMTRecHits[aHitID];
 }
 
-TBMTRecClusters * TVertexAna::GetBMTRecCluster(int aind) {
+TBMTRecCluster * TVertexAna::GetBMTRecCluster(int aClID) {
 
-    if (aind >= v_BMTRecClusters.size() || aind < 0) {
-        std::cout << "The index is " << aind << "   which is outside of boundaries of the vector 'v_BMTRecHits' having the size " << v_BMTRecClusters.size() << std::endl;
-        std::cout << "Exiting" << std::endl;
+    if (m_BMTRecClusters.find(aClID) == m_BMTRecClusters.end()) {
+        std::cout << " The map m_BMTRecClusters doesn't have an entry with ID = " << aClID << std::endl;
+        std::cout << "Elements of the map are    ";
+
+        for (const auto element : m_BMTRecClusters) {
+            std::cout << element.first << "   ";
+        }
+
+        std::cout << std::endl << "Exiting" << std::endl;
         exit(1);
     }
 
-    return &v_BMTRecClusters.at(aind);
+
+    return &m_BMTRecClusters[aClID];
 }
