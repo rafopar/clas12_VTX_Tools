@@ -68,7 +68,7 @@ int TVertexAna::ReadBank_BMT_adc() {
     for (int i = 0; i < nBMTadc; i++) {
         TBMTadc curBMTadc;
 
-        curBMTadc.adc = bBMT_adc.getInt("ADC", i);
+        curBMTadc.ADC = bBMT_adc.getInt("ADC", i);
         curBMTadc.component = bBMT_adc.getInt("component", i);
         curBMTadc.integral = bBMT_adc.getInt("integral", i);
         curBMTadc.layer = bBMT_adc.getInt("layer", i);
@@ -115,14 +115,16 @@ int TVertexAna::ReadBank_BMTRec_Clusters() {
     for (int i = 0; i < nBMTRecClusters; i++) {
         TBMTRecCluster curBMTRecCluster;
 
-        curBMTRecCluster.ETot = bBMTRec_Clusters.getFloat("Etot", i);
-        curBMTRecCluster.Hit1_ID = bBMTRec_Clusters.getInt("hit1_ID", i);
-        curBMTRecCluster.Hit2_ID = bBMTRec_Clusters.getInt("hit2_ID", i);
-        curBMTRecCluster.Hit3_ID = bBMTRec_Clusters.getInt("hit3_ID", i);
-        curBMTRecCluster.Hit4_ID = bBMTRec_Clusters.getInt("hit4_ID", i);
-        curBMTRecCluster.Hit5_ID = bBMTRec_Clusters.getInt("hit5_ID", i);
+        curBMTRecCluster.ETot = bBMTRec_Clusters.getFloat("ETot", i);
+        curBMTRecCluster.Hit1_ID = bBMTRec_Clusters.getInt("Hit1_ID", i);
+        curBMTRecCluster.Hit2_ID = bBMTRec_Clusters.getInt("Hit2_ID", i);
+        curBMTRecCluster.Hit3_ID = bBMTRec_Clusters.getInt("Hit3_ID", i);
+        curBMTRecCluster.Hit4_ID = bBMTRec_Clusters.getInt("Hit4_ID", i);
+        curBMTRecCluster.Hit5_ID = bBMTRec_Clusters.getInt("Hit5_ID", i);
         curBMTRecCluster.ID = bBMTRec_Clusters.getInt("ID", i);
         curBMTRecCluster.centroid = bBMTRec_Clusters.getFloat("centroid", i);
+        curBMTRecCluster.centroidValue = bBMTRec_Clusters.getFloat("centroidValue", i);
+        curBMTRecCluster.centroidError = bBMTRec_Clusters.getFloat("centroidError", i);
         curBMTRecCluster.centroidResidual = bBMTRec_Clusters.getFloat("centroidResidual", i);
         curBMTRecCluster.layer = bBMTRec_Clusters.getInt("layer", i);
         curBMTRecCluster.sector = bBMTRec_Clusters.getInt("sector", i);
@@ -131,6 +133,28 @@ int TVertexAna::ReadBank_BMTRec_Clusters() {
         curBMTRecCluster.seedStrip = bBMTRec_Clusters.getInt("seedStrip", i);
         curBMTRecCluster.size = bBMTRec_Clusters.getInt("size", i);
         curBMTRecCluster.trkID = bBMTRec_Clusters.getInt("trkID", i);
+        curBMTRecCluster.x1 = bBMTRec_Clusters.getFloat("x1", i);
+        curBMTRecCluster.y1 = bBMTRec_Clusters.getFloat("y1", i);
+        curBMTRecCluster.z1 = bBMTRec_Clusters.getFloat("z1", i);
+        curBMTRecCluster.x2 = bBMTRec_Clusters.getFloat("x2", i);
+        curBMTRecCluster.y2 = bBMTRec_Clusters.getFloat("y2", i);
+        curBMTRecCluster.z2 = bBMTRec_Clusters.getFloat("z2", i);
+        curBMTRecCluster.theta = bBMTRec_Clusters.getFloat("theta", i);
+        curBMTRecCluster.ax1 = bBMTRec_Clusters.getFloat("ax1", i);
+        curBMTRecCluster.ay1 = bBMTRec_Clusters.getFloat("ay1", i);
+        curBMTRecCluster.az1 = bBMTRec_Clusters.getFloat("az1", i);
+        curBMTRecCluster.ax2 = bBMTRec_Clusters.getFloat("ax2", i);
+        curBMTRecCluster.ay2 = bBMTRec_Clusters.getFloat("ay2", i);
+        curBMTRecCluster.az2 = bBMTRec_Clusters.getFloat("az2", i);
+        curBMTRecCluster.lx = bBMTRec_Clusters.getFloat("lx", i);
+        curBMTRecCluster.ly = bBMTRec_Clusters.getFloat("ly", i);
+        curBMTRecCluster.lz = bBMTRec_Clusters.getFloat("lz", i);
+        curBMTRecCluster.sx = bBMTRec_Clusters.getFloat("sx", i);
+        curBMTRecCluster.sy = bBMTRec_Clusters.getFloat("sy", i);
+        curBMTRecCluster.sz = bBMTRec_Clusters.getFloat("sz", i);
+        curBMTRecCluster.nx = bBMTRec_Clusters.getFloat("nx", i);
+        curBMTRecCluster.ny = bBMTRec_Clusters.getFloat("ny", i);
+        curBMTRecCluster.nz = bBMTRec_Clusters.getFloat("nz", i);
 
         m_BMTRecClusters[curBMTRecCluster.ID] = curBMTRecCluster;
     }
@@ -160,11 +184,34 @@ int TVertexAna::ReadBank_BMTRec_Crosses() {
         curBMTCross.x = bBMTRec_Crosses.getFloat("x", i);
         curBMTCross.y = bBMTRec_Crosses.getFloat("y", i);
         curBMTCross.z = bBMTRec_Crosses.getFloat("z", i);
-        
+
         m_BMTRecCrosses[curBMTCross.ID] = curBMTCross;
     }
 
     return nBMTCrosses;
+}
+
+int TVertexAna::ReadBank_BST_adc() {
+    fEv->getStructure(bBST_adc);
+
+    nBSTadc = bBST_adc.getRows();
+
+    for (int i = 0; i < nBSTadc; i++) {
+        TBSTadc curBSTadc;
+
+        curBSTadc.ADC = bBST_adc.getInt("ADC", i);
+        curBSTadc.component = bBST_adc.getInt("component", i);
+        curBSTadc.layer = bBST_adc.getInt("layer", i);
+        curBSTadc.order = bBST_adc.getInt("order", i);
+        curBSTadc.ped = bBST_adc.getInt("ped", i);
+        curBSTadc.sector = bBST_adc.getInt("sector", i);
+        curBSTadc.time = bBST_adc.getFloat("time", i);
+        curBSTadc.timestamp = bBST_adc.getLong("timestamp", i);
+
+        m_BSTadcs[i + 1] = curBSTadc;
+    }
+
+    return nBSTadc;
 }
 
 TBMTadc * TVertexAna::GetBMTadc(int aind) {
@@ -216,4 +263,19 @@ TBMTRecCluster * TVertexAna::GetBMTRecCluster(int aClID) {
 
 
     return &m_BMTRecClusters[aClID];
+}
+
+TBSTadc * TVertexAna::GetBSTadc(int aind) {
+
+    if (m_BSTadcs.find(aind) == m_BSTadcs.end()) {
+        std::cout << " The map m_BSTadcs doesn't have an entry with index = " << aind << std::endl;
+        std::cout << "Elements of the map are    ";
+    }
+    for (const auto element : m_BSTadcs) {
+        std::cout << element.first << "   ";
+    }
+    std::cout << std::endl << "Exiting" << std::endl;
+    exit(1);
+
+    return &m_BSTadcs.at(aind);
 }

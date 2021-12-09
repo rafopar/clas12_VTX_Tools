@@ -24,7 +24,7 @@ public:
     int layer;
     int component;
     int order;
-    int adc;
+    int ADC;
     float time;
     int ped;
     int integral;
@@ -67,6 +67,8 @@ public:
     float seedE;
     int seedStrip;
     float centroid;
+    float centroidValue;        // *
+    float centroidError;        // *
     float centroidResidual;
     float seedResidual;
     int Hit1_ID;
@@ -75,6 +77,28 @@ public:
     int Hit4_ID;
     int Hit5_ID;
     int trkID;
+    float x1;       // *
+    float y1;       // *
+    float z1;       // *
+    float x2;       // *
+    float y2;       // *
+    float z2;       // *
+    float theta;       // *
+    float ax1;       // *
+    float ay1;       // *
+    float az1;       // *
+    float ax2;       // *
+    float ay2;       // *
+    float az2;       // *
+    float lx;       // *
+    float ly;       // *
+    float lz;       // *
+    float sx;       // *
+    float sy;       // *
+    float sz;       // *
+    float nx;       // *
+    float ny;       // *
+    float nz;       // *
     int nHits;
     std::vector <TBMTRecHit*> v_Hits;
 
@@ -114,6 +138,24 @@ public:
     
 private:
 
+};
+
+class TBSTadc{
+public:
+    TBSTadc();
+    TBSTadc( const TBSTadc& );
+    virtual ~TBSTadc();
+    
+    int sector;
+    int layer;
+    int component;
+    int order;
+    int ADC;
+    float time;
+    int ped;
+    long timestamp;
+    
+private:
 };
 
 class TCVTTrack {

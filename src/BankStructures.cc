@@ -15,7 +15,7 @@ TBMTadc::TBMTadc() {
     layer = -999;
     component = -999;
     order = -999;
-    adc = -999;
+    ADC = -999;
     time = -999;
     ped = -999;
     integral = -999;
@@ -28,7 +28,7 @@ TBMTadc::TBMTadc(const TBMTadc& orig) {
     layer = orig.layer;
     component = orig.component;
     order = orig.order;
-    adc = orig.adc;
+    ADC = orig.ADC;
     time = orig.time;
     ped = orig.ped;
     integral = orig.integral;
@@ -82,6 +82,8 @@ TBMTRecCluster::TBMTRecCluster() {
     seedE = -999;
     seedStrip = -999;
     centroid = -999;
+    centroidValue = -999;        // *
+    centroidError = -999;        // *
     centroidResidual = -999;
     seedResidual = -999;
     Hit1_ID = -999;
@@ -90,6 +92,29 @@ TBMTRecCluster::TBMTRecCluster() {
     Hit4_ID = -999;
     Hit5_ID = -999;
     trkID = -999;
+    x1 = -999;       // *
+    y1 = -999;       // *
+    z1 = -999;       // *
+    x2 = -999;       // *
+    y2 = -999;       // *
+    z2 = -999;       // *
+    theta = -999;       // *
+    ax1 = -999;       // *
+    ay1 = -999;       // *
+    az1 = -999;       // *
+    ax2 = -999;       // *
+    ay2 = -999;       // *
+    az2 = -999;       // *
+    lx = -999;       // *
+    ly = -999;       // *
+    lz = -999;       // *
+    sx = -999;       // *
+    sy = -999;       // *
+    sz = -999;       // *
+    nx = -999;       // *
+    ny = -999;       // *
+    nz = -999;       // *
+    
     nHits = 0;
     v_Hits = std::vector <TBMTRecHit*>();
 }
@@ -102,6 +127,8 @@ TBMTRecCluster::TBMTRecCluster(const TBMTRecCluster& orig) {
     ETot = orig.ID;
     seedE = orig.ID;
     seedStrip = orig.ID;
+    centroidValue = orig.centroidValue;
+    centroidError = orig.centroidError;
     centroid = orig.ID;
     centroidResidual = orig.ID;
     seedResidual = orig.ID;
@@ -113,6 +140,28 @@ TBMTRecCluster::TBMTRecCluster(const TBMTRecCluster& orig) {
     trkID = orig.ID;
     nHits = orig.nHits;
     v_Hits = orig.v_Hits;
+    x1 = orig.x1;
+    y1 = orig.y1;
+    z1 = orig.z1;
+    x2 = orig.x2;
+    y2 = orig.y2;
+    z2 = orig.z2;
+    theta = orig.theta;
+    ax1 = orig.ax1;
+    ay1 = orig.ay1;
+    az1 = orig.az1;
+    ax2 = orig.ax2;
+    ay2 = orig.ay2;
+    az2 = orig.az2;
+    lx = orig.lx;
+    ly = orig.ly;
+    lz = orig.lz;
+    sx = orig.sx;
+    sy =  orig.sy;
+    sz =  orig.sz;
+    nx =  orig.nx;
+    ny =  orig.ny;
+    nz =  orig.nz;    
 }
 
 TBMTRecCluster::~TBMTRecCluster() {
@@ -157,6 +206,38 @@ TBMTRecCross::TBMTRecCross(const TBMTRecCross &orig) {
     Cluster2_ID = orig.Cluster2_ID;
     trkID = orig.trkID;
 
+}
+
+TBMTRecCross::~TBMTRecCross(){
+}
+
+/**
+ *                                  TBMTRecCross
+ */
+
+TBSTadc::TBSTadc(){
+    sector = -999;
+    layer = -999;
+    component = -999;
+    order = -999;
+    ADC = -999;
+    time = -999;
+    ped = -999;
+    timestamp = -999;    
+}
+
+TBSTadc::TBSTadc(const TBSTadc& orig){
+    sector = orig.sector;
+    layer = orig.layer;
+    component = orig.component;
+    order = orig.order;
+    ADC = orig.ADC;
+    time = orig.time;
+    ped = orig.ped;
+    timestamp = orig.timestamp;
+}
+
+TBSTadc::~TBSTadc(){
 }
 
 TCVTTrack::TCVTTrack() {

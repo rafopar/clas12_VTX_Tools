@@ -30,6 +30,7 @@ public:
     TBMTadc* GetBMTadc(int); // Return the pointer to the TBMTadc, where the argument is the index of the element in the bank
     TBMTRecHit* GetBMTRecHit(int); // Return the pointer to the TBMTRecHit, where the argument is the hitID of the hit
     TBMTRecCluster* GetBMTRecCluster(int); // Return the pointer to the TBMTRecCluster, where the argument is the KEY (ID) of the TBMTRecCluster
+    TBSTadc* GetBSTadc(int); // Return the pointer to the TBSTadc, where the argument is the index of the element in the bank
 
     void ReadEvent(hipo::event&); // Read banks
 
@@ -51,6 +52,9 @@ public:
     std::map<int, TBMTRecHit> * GetBMTRecHits(){
         return &m_BMTRecHits;
     }
+    int GetNBSTADC() {
+        return m_BSTadcs.size();
+    };
     
 
 private:
@@ -58,10 +62,11 @@ private:
     int nCVTTracks; // The number of CVT tracks in the event
     int nCVTTrajectories; // The number of CVT trajectories in the event
     int nBMTCrosses; // The number of BMT crosses
-    int nBSTCrosses; // The number of BST crosses
     int nBMTadc; // The number of adc hits in BMT
     int nBMTRecHits; // The number of BMT hits
     int nBMTRecClusters; // The number of BMT Clusters
+    int nBSTadc; // The number of adc hits in BST
+    int nBSTCrosses; // The number of BST crosses
     int nBSTHits; // The number of BST hits
     int nFMTHits; // The number of FMT hits
 
@@ -70,6 +75,7 @@ private:
     std::map<int, TBMTRecHit> m_BMTRecHits; // Map of TBMTRecHits in the event, where the key of the map is the hitID
     std::map<int, TBMTRecCluster> m_BMTRecClusters; // Map of TBMTRecClusters in the event, where the key of the map is the ID of the cluster
     std::map<int, TBMTRecCross> m_BMTRecCrosses; // Map of TBMTRecCross in the event, where the key of the map is the ID of the cross
+    std::map<int, TBSTadc> m_BSTadcs; // Map of TSMTadcs in the event, where the key of the map is the index of the adc hit in the bank
     hipo::dictionary fDict; // Hipo dictionary for the file
 
     hipo::event *fEv; // Current Event
@@ -98,6 +104,7 @@ private:
     int ReadBank_BMTRec_Hits();
     int ReadBank_BMTRec_Clusters();
     int ReadBank_BMTRec_Crosses();
+    int ReadBank_BST_adc();
 
 };
 
