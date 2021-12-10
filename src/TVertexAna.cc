@@ -207,12 +207,36 @@ int TVertexAna::ReadBank_BST_adc() {
         curBSTadc.sector = bBST_adc.getInt("sector", i);
         curBSTadc.time = bBST_adc.getFloat("time", i);
         curBSTadc.timestamp = bBST_adc.getLong("timestamp", i);
-
+        curBSTadc.integral = 0; // This doesn't apply to BST so we assign to 0
         m_BSTadcs[i + 1] = curBSTadc;
     }
 
     return nBSTadc;
 }
+
+int TVertexAna::ReadBank_BSTRec_Hits() {
+    fEv->getStructure(bBSTRec_Hits);
+
+    nBSTRecHits = bBSTRec_Hits.getRows();
+
+    for (int i = 0; i < nBSTRecHits; i++) {
+        TBSTRecHit curBSTRecHit;
+
+        curBSTRecHit.ID = bBMTRec_Hits.getInt("ID", i);
+        curBSTRecHit.clusterID = bBMTRec_Hits.getInt("clusterID", i);
+        curBSTRecHit.fitResidual = bBMTRec_Hits.getFloat("fitResidual", i);
+        curBSTRecHit.layer = bBMTRec_Hits.getInt("layer", i);
+        curBSTRecHit.sector = bBMTRec_Hits.getInt("layer", i);
+        curBSTRecHit.strip = bBMTRec_Hits.getInt("strip", i);
+        curBSTRecHit.trkID = bBMTRec_Hits.getInt("trkID", i);
+        curBSTRecHit.trkingStat = bBMTRec_Hits.getInt("trkingStat", i);
+
+        m_BMTRecHits[curBSTRecHit.ID] = curBSTRecHit;
+    }
+
+    return nBMTRecHits;
+}
+
 
 TBMTadc * TVertexAna::GetBMTadc(int aind) {
 

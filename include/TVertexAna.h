@@ -20,6 +20,11 @@
 #include <vector>
 #include <map>
 
+typedef TCVTadc TBMTadc;
+typedef TCVTadc TBSTadc;
+typedef TCVTRecHit TBMTRecHit;
+typedef TCVTRecHit TBSTRecHit;
+
 class TVertexAna {
 public:
     TVertexAna(hipo::dictionary &);
@@ -66,6 +71,7 @@ private:
     int nBMTRecHits; // The number of BMT hits
     int nBMTRecClusters; // The number of BMT Clusters
     int nBSTadc; // The number of adc hits in BST
+    int nBSTRecHits; // The number of BMT hits
     int nBSTCrosses; // The number of BST crosses
     int nBSTHits; // The number of BST hits
     int nFMTHits; // The number of FMT hits
@@ -105,6 +111,7 @@ private:
     int ReadBank_BMTRec_Clusters();
     int ReadBank_BMTRec_Crosses();
     int ReadBank_BST_adc();
+    int ReadBank_BSTRec_Hits();
 
 };
 

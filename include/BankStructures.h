@@ -14,11 +14,11 @@
  *  BMT ADC class
  */
 
-class TBMTadc {
+class TCVTadc {
 public:
-    TBMTadc();
-    TBMTadc(const TBMTadc& orig);
-    virtual ~TBMTadc();
+    TCVTadc();
+    TCVTadc(const TCVTadc& orig);
+    virtual ~TCVTadc();
 
     int sector;
     int layer;
@@ -34,11 +34,11 @@ private:
 
 };
 
-class TBMTRecHit {
+class TCVTRecHit {
 public:
-    TBMTRecHit();
-    TBMTRecHit(const TBMTRecHit& orig);
-    virtual ~TBMTRecHit();
+    TCVTRecHit();
+    TCVTRecHit(const TCVTRecHit& orig);
+    virtual ~TCVTRecHit();
 
     int ID;
     int sector;
@@ -100,14 +100,14 @@ public:
     float ny;       // *
     float nz;       // *
     int nHits;
-    std::vector <TBMTRecHit*> v_Hits;
+    std::vector <TCVTRecHit*> v_Hits;
 
     int GetNumberOfHits() const {
         return v_Hits.size();
     };
     
     // ========== Vector of pointers to hits ==========
-    std::vector <TBMTRecHit*> GetHits() const{
+    std::vector <TCVTRecHit*> GetHits() const{
         return v_Hits;
     };
 
@@ -138,24 +138,6 @@ public:
     
 private:
 
-};
-
-class TBSTadc{
-public:
-    TBSTadc();
-    TBSTadc( const TBSTadc& );
-    virtual ~TBSTadc();
-    
-    int sector;
-    int layer;
-    int component;
-    int order;
-    int ADC;
-    float time;
-    int ped;
-    long timestamp;
-    
-private:
 };
 
 class TCVTTrack {

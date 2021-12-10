@@ -10,7 +10,7 @@
  *                                  TBMTadc
  */
 
-TBMTadc::TBMTadc() {
+TCVTadc::TCVTadc() {
     sector = -999;
     layer = -999;
     component = -999;
@@ -23,7 +23,7 @@ TBMTadc::TBMTadc() {
 
 }
 
-TBMTadc::TBMTadc(const TBMTadc& orig) {
+TCVTadc::TCVTadc(const TCVTadc& orig) {
     sector = orig.sector;
     layer = orig.layer;
     component = orig.component;
@@ -35,14 +35,14 @@ TBMTadc::TBMTadc(const TBMTadc& orig) {
     timestamp = orig.timestamp;
 }
 
-TBMTadc::~TBMTadc() {
+TCVTadc::~TCVTadc() {
 }
 
 /**
  *                                  TBMTRecHit
  */
 
-TBMTRecHit::TBMTRecHit() {
+TCVTRecHit::TCVTRecHit() {
     ID = -999;
     sector = -999;
     layer = -999;
@@ -53,7 +53,7 @@ TBMTRecHit::TBMTRecHit() {
     trkID = -999;
 }
 
-TBMTRecHit::TBMTRecHit(const TBMTRecHit& orig) {
+TCVTRecHit::TCVTRecHit(const TCVTRecHit& orig) {
     ID = orig.ID;
     sector = orig.sector;
     layer = orig.layer;
@@ -64,7 +64,7 @@ TBMTRecHit::TBMTRecHit(const TBMTRecHit& orig) {
     trkID = orig.trkID;
 }
 
-TBMTRecHit::~TBMTRecHit() {
+TCVTRecHit::~TCVTRecHit() {
 }
 
 /**
@@ -116,7 +116,7 @@ TBMTRecCluster::TBMTRecCluster() {
     nz = -999;       // *
     
     nHits = 0;
-    v_Hits = std::vector <TBMTRecHit*>();
+    v_Hits = std::vector <TCVTRecHit*>();
 }
 
 TBMTRecCluster::TBMTRecCluster(const TBMTRecCluster& orig) {
@@ -214,31 +214,6 @@ TBMTRecCross::~TBMTRecCross(){
 /**
  *                                  TBMTRecCross
  */
-
-TBSTadc::TBSTadc(){
-    sector = -999;
-    layer = -999;
-    component = -999;
-    order = -999;
-    ADC = -999;
-    time = -999;
-    ped = -999;
-    timestamp = -999;    
-}
-
-TBSTadc::TBSTadc(const TBSTadc& orig){
-    sector = orig.sector;
-    layer = orig.layer;
-    component = orig.component;
-    order = orig.order;
-    ADC = orig.ADC;
-    time = orig.time;
-    ped = orig.ped;
-    timestamp = orig.timestamp;
-}
-
-TBSTadc::~TBSTadc(){
-}
 
 TCVTTrack::TCVTTrack() {
 }
