@@ -116,6 +116,7 @@ int TVertexAna::ReadBank_BMTRec_Clusters() {
         TBMTRecCluster curBMTRecCluster;
 
         curBMTRecCluster.ETot = bBMTRec_Clusters.getFloat("ETot", i);
+        curBMTRecCluster.time = bBMTRec_Clusters.getFloat("time", i);
         curBMTRecCluster.Hit1_ID = bBMTRec_Clusters.getInt("Hit1_ID", i);
         curBMTRecCluster.Hit2_ID = bBMTRec_Clusters.getInt("Hit2_ID", i);
         curBMTRecCluster.Hit3_ID = bBMTRec_Clusters.getInt("Hit3_ID", i);

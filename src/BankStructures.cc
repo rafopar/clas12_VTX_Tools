@@ -79,6 +79,7 @@ TBMTRecCluster::TBMTRecCluster() {
     layer = -999;
     size = -999;
     ETot = -999;
+    time = -999;
     seedE = -999;
     seedStrip = -999;
     centroid = -999;
@@ -125,6 +126,7 @@ TBMTRecCluster::TBMTRecCluster(const TBMTRecCluster& orig) {
     layer = orig.ID;
     size = orig.ID;
     ETot = orig.ID;
+    time = orig.time;
     seedE = orig.ID;
     seedStrip = orig.ID;
     centroidValue = orig.centroidValue;
@@ -209,6 +211,89 @@ TBMTRecCross::TBMTRecCross(const TBMTRecCross &orig) {
 }
 
 TBMTRecCross::~TBMTRecCross(){
+}
+
+TBSTRecCluster::TBSTRecCluster() {
+
+    ID = -999;
+    sector = -999;
+    layer = -999;
+    size = -999;
+    ETot = -999;
+    time = -999;
+    seedE = -999;
+    seedStrip = -999;
+    centroid = -999;
+    centroidError = -999;        // *
+    centroidResidual = -999;
+    seedResidual = -999;
+    Hit1_ID = -999;
+    Hit2_ID = -999;
+    Hit3_ID = -999;
+    Hit4_ID = -999;
+    Hit5_ID = -999;
+    trkID = -999;
+    x1 = -999;       // *
+    y1 = -999;       // *
+    z1 = -999;       // *
+    x2 = -999;       // *
+    y2 = -999;       // *
+    z2 = -999;       // *
+    lx = -999;       // *
+    ly = -999;       // *
+    lz = -999;       // *
+    sx = -999;       // *
+    sy = -999;       // *
+    sz = -999;       // *
+    nx = -999;       // *
+    ny = -999;       // *
+    nz = -999;       // *
+    e = -999;
+    nHits = 0;
+    v_Hits = std::vector <TCVTRecHit*>();
+}
+
+
+TBSTRecCluster::TBSTRecCluster(const TBSTRecCluster& orig) {
+    ID = orig.ID;
+    sector = orig.ID;
+    layer = orig.ID;
+    size = orig.ID;
+    ETot = orig.ID;
+    time = orig.time;
+    seedE = orig.ID;
+    seedStrip = orig.ID;
+    centroidError = orig.centroidError;
+    centroid = orig.ID;
+    centroidResidual = orig.ID;
+    seedResidual = orig.ID;
+    Hit1_ID = orig.ID;
+    Hit2_ID = orig.ID;
+    Hit3_ID = orig.ID;
+    Hit4_ID = orig.ID;
+    Hit5_ID = orig.ID;
+    trkID = orig.ID;
+    nHits = orig.nHits;
+    v_Hits = orig.v_Hits;
+    x1 = orig.x1;
+    y1 = orig.y1;
+    z1 = orig.z1;
+    x2 = orig.x2;
+    y2 = orig.y2;
+    z2 = orig.z2;
+    lx = orig.lx;
+    ly = orig.ly;
+    lz = orig.lz;
+    sx = orig.sx;
+    sy =  orig.sy;
+    sz =  orig.sz;
+    nx =  orig.nx;
+    ny =  orig.ny;
+    nz =  orig.nz;    
+    e = orig.e;
+}
+
+TBMTRecCluster::~TBMTRecCluster() {
 }
 
 /**

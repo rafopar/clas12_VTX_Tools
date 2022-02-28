@@ -45,21 +45,58 @@ public:
     int GetNBMTADC() {
         return m_BMTadcs.size();
     };
+    
+    std::map<int, TBMTadc> *GetBMTADCs(){
+        return &m_BMTadcs;
+    };
 
     int GetNBMTRecHits() {
         return m_BMTRecHits.size();
     };
     
+    std::map<int, TBMTRecHit> * GetBMTRecHits(){
+        return &m_BMTRecHits;
+    };
+
+    int GetNBMTRecClusters(){
+        return m_BMTRecClusters.size();
+    }
+    
+    std::map<int, TBMTRecCluster> *GetBMTRecClusters(){
+        return &m_BMTRecClusters;
+    }
+
     int GetNBMTRecCrosses(){
         return m_BMTRecCrosses.size();
     }
     
-    std::map<int, TBMTRecHit> * GetBMTRecHits(){
-        return &m_BMTRecHits;
+    std::map<int, TBMTRecCross> *GetBMTRecCrosses(){
+        return &m_BMTRecCrosses;
     }
+        
     int GetNBSTADC() {
         return m_BSTadcs.size();
     };
+    
+    std::map<int, TBMTadc> *GetBSTADC(){
+        return &m_BSTadcs;
+    }
+    
+    int GetNBSTRecHits() {
+        return m_BSTRecHits.size();
+    };
+    
+    std::map<int, TBSTRecHit> * GetBSTRecHits(){
+        return &m_BSTRecHits;
+    };
+    
+    int GetNBSTRecClusters(){
+        return m_BSTRecClusters.size();
+    }
+    
+    std::map<int, TBSTRecCluster> *GetBSTRecClusters(){
+        return &m_BSTRecClusters;
+    }
     
 
 private:
@@ -82,6 +119,8 @@ private:
     std::map<int, TBMTRecCluster> m_BMTRecClusters; // Map of TBMTRecClusters in the event, where the key of the map is the ID of the cluster
     std::map<int, TBMTRecCross> m_BMTRecCrosses; // Map of TBMTRecCross in the event, where the key of the map is the ID of the cross
     std::map<int, TBSTadc> m_BSTadcs; // Map of TSMTadcs in the event, where the key of the map is the index of the adc hit in the bank
+    std::map<int, TBSTRecHit> m_BSTRecHits; // Map of TBSTRecHits in the event, where the key of the map is the hitID
+    std::map<int, TBSTRecHit> m_BSTRecClusters; // Map of TBSTRecHits in the event, where the key of the map is the hitID
     hipo::dictionary fDict; // Hipo dictionary for the file
 
     hipo::event *fEv; // Current Event
@@ -112,6 +151,7 @@ private:
     int ReadBank_BMTRec_Crosses();
     int ReadBank_BST_adc();
     int ReadBank_BSTRec_Hits();
+    int ReadBank_BSTRec_Clusters();
 
 };
 
