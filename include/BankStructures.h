@@ -115,11 +115,11 @@ public:
 private:
 };
 
-class TBMTRecCross{
+class TCVTRecCross{
 public:
-    TBMTRecCross();
-    TBMTRecCross( const TBMTRecCross &orig );
-    virtual ~TBMTRecCross();
+    TCVTRecCross();
+    TCVTRecCross( const TCVTRecCross &orig );
+    virtual ~TCVTRecCross();
     
     int ID;
     int sector;

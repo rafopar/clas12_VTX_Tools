@@ -47,17 +47,28 @@ void TVertexAna::ReadEvent(hipo::event &ev) {
     /*
      * Cleaning everything from previous event
      */
-    m_BMTadcs.clear();
     v_CVTTracks.clear();
     v_CVTTracks.shrink_to_fit();
+
+    m_BMTadcs.clear();
     m_BMTRecHits.clear();
     m_BMTRecClusters.clear();
     m_BMTRecCrosses.clear();
+
+    m_BSTadcs.clear();
+    m_BSTRecHits.clear();
+    m_BSTRecClusters.clear();
+    m_BSTRecCrosses.clear();
 
     nBMTadc = ReadBank_BMT_adc();
     nBMTRecHits = ReadBank_BMTRec_Hits();
     nBMTRecClusters = ReadBank_BMTRec_Clusters();
     nBMTCrosses = ReadBank_BMTRec_Crosses();
+
+    nBSTadc = ReadBank_BST_adc();
+    nBSTRecHits = ReadBank_BSTRec_Hits();
+    nBSTRecClusters = ReadBank_BSTRec_Clusters();
+    nBSTCrosses = ReadBank_BSTRec_Crosses();
 }
 
 int TVertexAna::ReadBank_BMT_adc() {
@@ -232,10 +243,88 @@ int TVertexAna::ReadBank_BSTRec_Hits() {
         curBSTRecHit.trkID = bBMTRec_Hits.getInt("trkID", i);
         curBSTRecHit.trkingStat = bBMTRec_Hits.getInt("trkingStat", i);
 
-        m_BMTRecHits[curBSTRecHit.ID] = curBSTRecHit;
+        m_BSTRecHits[curBSTRecHit.ID] = curBSTRecHit;
     }
 
     return nBMTRecHits;
+}
+
+int TVertexAna::ReadBank_BSTRec_Clusters() {
+   
+    fEv->getStructure(bBSTRec_Clusters);
+
+    nBSTRecClusters = bBSTRec_Clusters.getRows();
+
+    for( int i = 0; i < nBSTRecClusters; i++ ){
+        TBSTRecCluster curBSTCluster;
+        curBSTCluster.ID = bBSTRec_Clusters.getInt("ID", i);
+        curBSTCluster.sector = bBSTRec_Clusters.getInt("sector", i);
+        curBSTCluster.layer = bBSTRec_Clusters.getInt("layer", i);
+        curBSTCluster.size = bBSTRec_Clusters.getInt("size", i);
+        curBSTCluster.ETot = bBSTRec_Clusters.getFloat("ETot", i);
+        curBSTCluster.time = bBSTRec_Clusters.getFloat("time", i);
+        curBSTCluster.seedE = bBSTRec_Clusters.getFloat("seedE", i);
+        curBSTCluster.seedStrip = bBSTRec_Clusters.getInt("seedStrip", i);
+        curBSTCluster.centroid = bBSTRec_Clusters.getFloat("centroid", i);
+        curBSTCluster.centroidError = bBSTRec_Clusters.getFloat("centroidError", i);
+        curBSTCluster.centroidResidual = bBSTRec_Clusters.getFloat("centroidResidual", i);
+        curBSTCluster.seedResidual = bBSTRec_Clusters.getFloat("seedResidual", i);
+        curBSTCluster.Hit1_ID = bBSTRec_Clusters.getInt("Hit1_ID", i);
+        curBSTCluster.Hit2_ID = bBSTRec_Clusters.getInt("Hit2_ID", i);
+        curBSTCluster.Hit3_ID = bBSTRec_Clusters.getInt("Hit3_ID", i);
+        curBSTCluster.Hit4_ID = bBSTRec_Clusters.getInt("Hit4_ID", i);
+        curBSTCluster.Hit5_ID = bBSTRec_Clusters.getInt("Hit5_ID", i);
+        curBSTCluster.trkID = bBSTRec_Clusters.getInt("trkID", i);
+        curBSTCluster.x1 = bBSTRec_Clusters.getFloat("x1", i);
+        curBSTCluster.y1 = bBSTRec_Clusters.getFloat("y1", i);
+        curBSTCluster.z1 = bBSTRec_Clusters.getFloat("z1", i);
+        curBSTCluster.x2 = bBSTRec_Clusters.getFloat("x2", i);
+        curBSTCluster.y2 = bBSTRec_Clusters.getFloat("y2", i);
+        curBSTCluster.z2 = bBSTRec_Clusters.getFloat("z2", i);
+        curBSTCluster.lx = bBSTRec_Clusters.getFloat("lx", i);
+        curBSTCluster.ly = bBSTRec_Clusters.getFloat("ly", i);
+        curBSTCluster.lz = bBSTRec_Clusters.getFloat("lz", i);
+        curBSTCluster.sx = bBSTRec_Clusters.getFloat("sx", i);
+        curBSTCluster.sy = bBSTRec_Clusters.getFloat("sy", i);
+        curBSTCluster.sz = bBSTRec_Clusters.getFloat("sz", i);
+        curBSTCluster.nx = bBSTRec_Clusters.getFloat("nx", i);
+        curBSTCluster.ny = bBSTRec_Clusters.getFloat("ny", i);
+        curBSTCluster.nz = bBSTRec_Clusters.getFloat("nz", i);
+        curBSTCluster.e = bBSTRec_Clusters.getFloat("e", i);
+        
+        m_BSTRecClusters[curBSTCluster.ID] = curBSTCluster;
+    }
+    
+    return nBSTRecClusters;
+}
+
+int TVertexAna::ReadBank_BSTRec_Crosses() {
+    fEv->getStructure(bBSTRec_Crosses);
+
+    nBSTCrosses = bBSTRec_Crosses.getRows();
+
+    for (int i = 0; i < nBSTCrosses; i++) {
+        TBSTRecCross curBSTCross;
+        curBSTCross.Cluster1_ID = bBSTRec_Crosses.getInt("Cluster1_ID", i);
+        curBSTCross.Cluster2_ID = bBSTRec_Crosses.getInt("Cluster2_ID", i);
+        curBSTCross.ID = bBSTRec_Crosses.getInt("ID", i);
+        curBSTCross.err_x = bBSTRec_Crosses.getFloat("err_x", i);
+        curBSTCross.err_y = bBSTRec_Crosses.getFloat("err_y", i);
+        curBSTCross.err_z = bBSTRec_Crosses.getFloat("err_z", i);
+        curBSTCross.region = bBSTRec_Crosses.getInt("region", i);
+        curBSTCross.sector = bBSTRec_Crosses.getInt("sector", i);
+        curBSTCross.trkID = bBSTRec_Crosses.getInt("trkID", i);
+        curBSTCross.ux = bBSTRec_Crosses.getFloat("ux", i);
+        curBSTCross.uy = bBSTRec_Crosses.getFloat("uy", i);
+        curBSTCross.uz = bBSTRec_Crosses.getFloat("uz", i);
+        curBSTCross.x = bBSTRec_Crosses.getFloat("x", i);
+        curBSTCross.y = bBSTRec_Crosses.getFloat("y", i);
+        curBSTCross.z = bBSTRec_Crosses.getFloat("z", i);
+
+        m_BSTRecCrosses[curBSTCross.ID] = curBSTCross;
+    }
+
+    return nBSTCrosses;
 }
 
 
@@ -290,6 +379,23 @@ TBMTRecCluster * TVertexAna::GetBMTRecCluster(int aClID) {
     return &m_BMTRecClusters[aClID];
 }
 
+TBMTRecCross * TVertexAna::GetBMTRecCross(int aCrID) {
+
+    if (m_BMTRecCrosses.find(aCrID) == m_BMTRecCrosses.end()) {
+        std::cout << " The map m_BMTRecCrosses doesn't have an entry with ID = " << aCrID << std::endl;
+        std::cout << "Elements of the map are    ";
+
+        for (const auto element : m_BMTRecCrosses) {
+            std::cout << element.first << "   ";
+        }
+
+        std::cout << std::endl << "Exiting" << std::endl;
+        exit(1);
+    }
+
+    return &m_BMTRecCrosses[aCrID];
+}
+
 TBSTadc * TVertexAna::GetBSTadc(int aind) {
 
     if (m_BSTadcs.find(aind) == m_BSTadcs.end()) {
@@ -303,4 +409,55 @@ TBSTadc * TVertexAna::GetBSTadc(int aind) {
     exit(1);
 
     return &m_BSTadcs.at(aind);
+}
+
+TBSTRecHit * TVertexAna::GetBSTRecHit(int aHitID) {
+
+    if (m_BSTRecHits.find(aHitID) == m_BSTRecHits.end()) {
+        std::cout << " The map m_BSTRecHits doesn't have an entry with HitID = " << aHitID << std::endl;
+        std::cout << "Elements of the map are    ";
+
+        for (const auto element : m_BSTRecHits) {
+            std::cout << element.first << "   ";
+        }
+
+        std::cout << std::endl << "Exiting" << std::endl;
+        exit(1);
+    }
+    
+    return &m_BSTRecHits[aHitID];
+}
+
+TBSTRecCluster * TVertexAna::GetBSTRecCluster(int aClID) {
+
+    if (m_BSTRecClusters.find(aClID) == m_BSTRecClusters.end()) {
+        std::cout << " The map m_BSTRecClusters doesn't have an entry with ID = " << aClID << std::endl;
+        std::cout << "Elements of the map are    ";
+
+        for (const auto element : m_BSTRecClusters) {
+            std::cout << element.first << "   ";
+        }
+
+        std::cout << std::endl << "Exiting" << std::endl;
+        exit(1);
+    }
+
+    return &m_BSTRecClusters[aClID];
+}
+
+TBSTRecCross * TVertexAna::GetBSTRecCross(int aCrID) {
+
+    if (m_BSTRecCrosses.find(aCrID) == m_BSTRecCrosses.end()) {
+        std::cout << " The map m_BSTRecCrosses doesn't have an entry with ID = " << aCrID << std::endl;
+        std::cout << "Elements of the map are    ";
+
+        for (const auto element : m_BSTRecCrosses) {
+            std::cout << element.first << "   ";
+        }
+
+        std::cout << std::endl << "Exiting" << std::endl;
+        exit(1);
+    }
+
+    return &m_BSTRecCrosses[aCrID];
 }

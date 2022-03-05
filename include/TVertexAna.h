@@ -24,6 +24,8 @@ typedef TCVTadc TBMTadc;
 typedef TCVTadc TBSTadc;
 typedef TCVTRecHit TBMTRecHit;
 typedef TCVTRecHit TBSTRecHit;
+typedef TCVTRecCross TBSTRecCross;
+typedef TCVTRecCross TBMTRecCross;
 
 class TVertexAna {
 public:
@@ -35,7 +37,11 @@ public:
     TBMTadc* GetBMTadc(int); // Return the pointer to the TBMTadc, where the argument is the index of the element in the bank
     TBMTRecHit* GetBMTRecHit(int); // Return the pointer to the TBMTRecHit, where the argument is the hitID of the hit
     TBMTRecCluster* GetBMTRecCluster(int); // Return the pointer to the TBMTRecCluster, where the argument is the KEY (ID) of the TBMTRecCluster
+    TBMTRecCross* GetBMTRecCross(int); // Return the pointer to the TBMTRecCross, where the argument is the KEY (ID) of the TBMTRecCross
     TBSTadc* GetBSTadc(int); // Return the pointer to the TBSTadc, where the argument is the index of the element in the bank
+    TBSTRecHit* GetBSTRecHit(int); // Return the pointer to the TBSTRecHit, where the argument is the hitID of the hit
+    TBSTRecCluster* GetBSTRecCluster(int); // Return the pointer to the TBSTRecCluster, where the argument is the KEY (ID) of the TBSTRecCluster
+    TBSTRecCross* GetBSTRecCross(int); // Return the pointer to the TBSTRecCross, where the argument is the KEY (ID) of the TBSTRecCross
 
     void ReadEvent(hipo::event&); // Read banks
 
@@ -103,12 +109,13 @@ private:
 
     int nCVTTracks; // The number of CVT tracks in the event
     int nCVTTrajectories; // The number of CVT trajectories in the event
-    int nBMTCrosses; // The number of BMT crosses
     int nBMTadc; // The number of adc hits in BMT
     int nBMTRecHits; // The number of BMT hits
     int nBMTRecClusters; // The number of BMT Clusters
+    int nBMTCrosses; // The number of BMT crosses
     int nBSTadc; // The number of adc hits in BST
-    int nBSTRecHits; // The number of BMT hits
+    int nBSTRecHits; // The number of BST hits
+    int nBSTRecClusters; // The number of BST Clusters
     int nBSTCrosses; // The number of BST crosses
     int nBSTHits; // The number of BST hits
     int nFMTHits; // The number of FMT hits
@@ -118,15 +125,16 @@ private:
     std::map<int, TBMTRecHit> m_BMTRecHits; // Map of TBMTRecHits in the event, where the key of the map is the hitID
     std::map<int, TBMTRecCluster> m_BMTRecClusters; // Map of TBMTRecClusters in the event, where the key of the map is the ID of the cluster
     std::map<int, TBMTRecCross> m_BMTRecCrosses; // Map of TBMTRecCross in the event, where the key of the map is the ID of the cross
-    std::map<int, TBSTadc> m_BSTadcs; // Map of TSMTadcs in the event, where the key of the map is the index of the adc hit in the bank
+    std::map<int, TBSTadc> m_BSTadcs; // Map of TBSTadcs in the event, where the key of the map is the index of the adc hit in the bank
     std::map<int, TBSTRecHit> m_BSTRecHits; // Map of TBSTRecHits in the event, where the key of the map is the hitID
-    std::map<int, TBSTRecHit> m_BSTRecClusters; // Map of TBSTRecHits in the event, where the key of the map is the hitID
+    std::map<int, TBSTRecCluster> m_BSTRecClusters; // Map of TBSTRecHits in the event, where the key of the map is the ClusterID
+    std::map<int, TBSTRecCross> m_BSTRecCrosses; // Map of TBSTRecCrossess in the event, where the key of the map is the CrossID
     hipo::dictionary fDict; // Hipo dictionary for the file
 
     hipo::event *fEv; // Current Event
 
     /**
-     * Banks 
+     * Banks
      */
 
     hipo::bank bBMT_adc;
@@ -152,6 +160,7 @@ private:
     int ReadBank_BST_adc();
     int ReadBank_BSTRec_Hits();
     int ReadBank_BSTRec_Clusters();
+    int ReadBank_BSTRec_Crosses();
 
 };
 

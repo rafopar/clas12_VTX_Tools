@@ -173,7 +173,7 @@ TBMTRecCluster::~TBMTRecCluster() {
  *                                  TBMTRecCross
  */
 
-TBMTRecCross::TBMTRecCross() {
+TCVTRecCross::TCVTRecCross() {
     ID = -999;
     sector = -999;
     region = -999;
@@ -191,7 +191,7 @@ TBMTRecCross::TBMTRecCross() {
     trkID = -999;
 }
 
-TBMTRecCross::TBMTRecCross(const TBMTRecCross &orig) {
+TCVTRecCross::TCVTRecCross(const TCVTRecCross &orig) {
     ID = orig.ID;
     sector = orig.sector;
     region = orig.region;
@@ -210,7 +210,7 @@ TBMTRecCross::TBMTRecCross(const TBMTRecCross &orig) {
 
 }
 
-TBMTRecCross::~TBMTRecCross(){
+TCVTRecCross::~TCVTRecCross(){
 }
 
 TBSTRecCluster::TBSTRecCluster() {
@@ -293,7 +293,7 @@ TBSTRecCluster::TBSTRecCluster(const TBSTRecCluster& orig) {
     e = orig.e;
 }
 
-TBMTRecCluster::~TBMTRecCluster() {
+TBSTRecCluster::~TBSTRecCluster() {
 }
 
 /**
