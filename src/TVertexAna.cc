@@ -33,7 +33,7 @@ void TVertexAna::InitDictionary(hipo::dictionary &aDict) {
     bBSTRec_Hits = hipo::bank(fDict.getSchema("BSTRec::Hits"));
     bBSTRec_Clusters = hipo::bank(fDict.getSchema("BSTRec::Clusters"));
     bBSTRec_Crosses = hipo::bank(fDict.getSchema("BSTRec::Crosses"));
-    
+
     bCVTRec_Tracks = hipo::bank(fDict.getSchema("CVTRec::Tracks"));
 }
 
@@ -50,7 +50,7 @@ void TVertexAna::ReadEvent(hipo::event &ev) {
      * Cleaning everything from previous event
      */
 
-    
+
     m_BMTadcs.clear();
     m_BMTRecHits.clear();
     m_BMTRecClusters.clear();
@@ -62,7 +62,7 @@ void TVertexAna::ReadEvent(hipo::event &ev) {
     m_BSTRecCrosses.clear();
 
     m_CVTRecTracks.clear();
-    
+
     nBMTadc = ReadBank_BMT_adc();
     nBMTRecHits = ReadBank_BMTRec_Hits();
     nBMTRecClusters = ReadBank_BMTRec_Clusters();
@@ -72,8 +72,8 @@ void TVertexAna::ReadEvent(hipo::event &ev) {
     nBSTRecHits = ReadBank_BSTRec_Hits();
     nBSTRecClusters = ReadBank_BSTRec_Clusters();
     nBSTCrosses = ReadBank_BSTRec_Crosses();
-    
-    nCVTRecTracks =  ReadBank_CVTRecTracks();
+
+    nCVTRecTracks = ReadBank_CVTRecTracks();
 }
 
 int TVertexAna::ReadBank_BMT_adc() {
@@ -255,12 +255,12 @@ int TVertexAna::ReadBank_BSTRec_Hits() {
 }
 
 int TVertexAna::ReadBank_BSTRec_Clusters() {
-   
+
     fEv->getStructure(bBSTRec_Clusters);
 
     nBSTRecClusters = bBSTRec_Clusters.getRows();
 
-    for( int i = 0; i < nBSTRecClusters; i++ ){
+    for (int i = 0; i < nBSTRecClusters; i++) {
         TBSTRecCluster curBSTCluster;
         curBSTCluster.ID = bBSTRec_Clusters.getInt("ID", i);
         curBSTCluster.sector = bBSTRec_Clusters.getInt("sector", i);
@@ -296,10 +296,10 @@ int TVertexAna::ReadBank_BSTRec_Clusters() {
         curBSTCluster.ny = bBSTRec_Clusters.getFloat("ny", i);
         curBSTCluster.nz = bBSTRec_Clusters.getFloat("nz", i);
         curBSTCluster.e = bBSTRec_Clusters.getFloat("e", i);
-        
+
         m_BSTRecClusters[curBSTCluster.ID] = curBSTCluster;
     }
-    
+
     return nBSTRecClusters;
 }
 
@@ -332,12 +332,12 @@ int TVertexAna::ReadBank_BSTRec_Crosses() {
     return nBSTCrosses;
 }
 
-int TVertexAna::ReadBank_CVTRecTracks(){
+int TVertexAna::ReadBank_CVTRecTracks() {
     fEv->getStructure(bCVTRec_Tracks);
-    
+
     nCVTRecTracks = bCVTRec_Tracks.getRows();
-    
-    for( int i = 0; i < nCVTRecTracks; i++ ){
+
+    for (int i = 0; i < nCVTRecTracks; i++) {
         TCVTRecTrack curRecTrack;
         curRecTrack.Cross1_ID = bCVTRec_Tracks.getInt("Cross1_ID", i);
         curRecTrack.Cross2_ID = bCVTRec_Tracks.getInt("Cross2_ID", i);
@@ -380,13 +380,12 @@ int TVertexAna::ReadBank_CVTRecTracks(){
         curRecTrack.xb = bCVTRec_Tracks.getFloat("xb", i);
         curRecTrack.yb = bCVTRec_Tracks.getFloat("yb", i);
         curRecTrack.z0 = bCVTRec_Tracks.getFloat("z0", i);
-        
+
         m_CVTRecTracks[curRecTrack.ID] = curRecTrack;
     }
-    
+
     return nCVTRecTracks;
 }
-
 
 TBMTadc * TVertexAna::GetBMTadc(int aind) {
 
@@ -484,7 +483,7 @@ TBSTRecHit * TVertexAna::GetBSTRecHit(int aHitID) {
         std::cout << std::endl << "Exiting" << std::endl;
         exit(1);
     }
-    
+
     return &m_BSTRecHits[aHitID];
 }
 
@@ -520,4 +519,21 @@ TBSTRecCross * TVertexAna::GetBSTRecCross(int aCrID) {
     }
 
     return &m_BSTRecCrosses[aCrID];
+}
+
+TCVTRecTrack *TVertexAna::GetCVTTrack(int aID) {
+    
+    if (m_CVTRecTracks.find(aID) == m_CVTRecTracks.end()) {
+        std::cout << " The map m_CVTRecTracks doesn't have an entry with ID = " << aID << std::endl;
+        std::cout << "Elements of the map are    ";
+
+        for (const auto element : m_CVTRecTracks) {
+            std::cout << element.first << "   ";
+        }
+
+        std::cout << std::endl << "Exiting" << std::endl;
+        exit(1);
+    }
+    
+    return &m_CVTRecTracks[aID];
 }
