@@ -74,6 +74,13 @@ void TVertexAna::ReadEvent(hipo::event &ev) {
     nBSTCrosses = ReadBank_BSTRec_Crosses();
 
     nCVTRecTracks = ReadBank_CVTRecTracks();
+
+
+    for (std::map<int, TBMTRecHit>::iterator it = m_BMTRecHits.begin(); it != m_BMTRecHits.end(); it++) {
+        if (it->second.trkID >= 0) {
+            it->second.SetCVTRecTrack(&m_CVTRecTracks[ it->second.trkID ]);
+        }
+    }
 }
 
 int TVertexAna::ReadBank_BMT_adc() {
@@ -392,12 +399,12 @@ TBMTadc * TVertexAna::GetBMTadc(int aind) {
     if (m_BMTadcs.find(aind) == m_BMTadcs.end()) {
         std::cout << " The map m_BMTadcs doesn't have an entry with index = " << aind << std::endl;
         std::cout << "Elements of the map are    ";
+        for (const auto element : m_BMTadcs) {
+            std::cout << element.first << "   ";
+        }
+        std::cout << std::endl << "Exiting" << std::endl;
+        exit(1);
     }
-    for (const auto element : m_BMTadcs) {
-        std::cout << element.first << "   ";
-    }
-    std::cout << std::endl << "Exiting" << std::endl;
-    exit(1);
 
     return &m_BMTadcs.at(aind);
 }
@@ -522,7 +529,7 @@ TBSTRecCross * TVertexAna::GetBSTRecCross(int aCrID) {
 }
 
 TCVTRecTrack *TVertexAna::GetCVTTrack(int aID) {
-    
+
     if (m_CVTRecTracks.find(aID) == m_CVTRecTracks.end()) {
         std::cout << " The map m_CVTRecTracks doesn't have an entry with ID = " << aID << std::endl;
         std::cout << "Elements of the map are    ";
@@ -534,6 +541,6 @@ TCVTRecTrack *TVertexAna::GetCVTTrack(int aID) {
         std::cout << std::endl << "Exiting" << std::endl;
         exit(1);
     }
-    
+
     return &m_CVTRecTracks[aID];
 }

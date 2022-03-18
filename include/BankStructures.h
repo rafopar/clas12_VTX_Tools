@@ -10,6 +10,8 @@
 
 #include <vector>
 
+class TCVTRecTrack;
+
 /**
  *  BMT ADC class
  */
@@ -48,8 +50,18 @@ public:
     int trkingStat;
     int clusterID;
     int trkID;
+    
+    TCVTRecTrack *fCVTRecTrk;
 
+    // ======= Getter methods ======
+    
+    TCVTRecTrack* GetCVTRecTrack() const;  //Returns the pointer to the TCVTRectTrack that the given hit belongs to
+    
+    // ======= Setter methods ======
+    void SetCVTRecTrack( TCVTRecTrack* );
+    
 private:
+    TCVTRecTrack *cvtTrk; // pointer to the TCVTRectTrack that the given hit belongs to
 
 };
 

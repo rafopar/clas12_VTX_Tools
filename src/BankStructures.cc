@@ -51,6 +51,8 @@ TCVTRecHit::TCVTRecHit() {
     trkingStat = -999;
     clusterID = -999;
     trkID = -999;
+    
+    fCVTRecTrk = NULL;
 }
 
 TCVTRecHit::TCVTRecHit(const TCVTRecHit& orig) {
@@ -63,6 +65,15 @@ TCVTRecHit::TCVTRecHit(const TCVTRecHit& orig) {
     clusterID = orig.clusterID;
     trkID = orig.trkID;
 }
+
+void TCVTRecHit::SetCVTRecTrack( TCVTRecTrack* aTrk ){
+    fCVTRecTrk = aTrk;
+}
+
+TCVTRecTrack *TCVTRecHit::GetCVTRecTrack() const{
+    return fCVTRecTrk;
+}
+
 
 TCVTRecHit::~TCVTRecHit() {
 }
