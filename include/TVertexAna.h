@@ -33,7 +33,7 @@ public:
     TVertexAna(const TVertexAna& orig);
     virtual ~TVertexAna();
 
-    TCVTTrack* GetCVTTrack(int); // Return the pointer to the "i-th" element of the vector TCVTTrack
+    TCVTRecTrack* GetCVTTrack(int); // Return the pointer to the "i-th" element of the vector TCVTTrack
     TBMTadc* GetBMTadc(int); // Return the pointer to the TBMTadc, where the argument is the index of the element in the bank
     TBMTRecHit* GetBMTRecHit(int); // Return the pointer to the TBMTRecHit, where the argument is the hitID of the hit
     TBMTRecCluster* GetBMTRecCluster(int); // Return the pointer to the TBMTRecCluster, where the argument is the KEY (ID) of the TBMTRecCluster
@@ -99,15 +99,25 @@ public:
     int GetNBSTRecClusters(){
         return m_BSTRecClusters.size();
     }
-    
+        
     std::map<int, TBSTRecCluster> *GetBSTRecClusters(){
         return &m_BSTRecClusters;
     }
     
+    int GetNCVTRecTracks(){
+        return m_CVTRecTracks.size();
+    }
+    
+    std::map<int, TCVTRecTrack> *GetCracks(){
+        return &m_CVTRecTracks;
+    }
+    
+    
+    
 
 private:
 
-    int nCVTTracks; // The number of CVT tracks in the event
+    int nCVTRecTracks; // The number of CVT tracks in the event
     int nCVTTrajectories; // The number of CVT trajectories in the event
     int nBMTadc; // The number of adc hits in BMT
     int nBMTRecHits; // The number of BMT hits
@@ -120,7 +130,7 @@ private:
     int nBSTHits; // The number of BST hits
     int nFMTHits; // The number of FMT hits
 
-    std::vector<TCVTTrack> v_CVTTracks; // Vector of TCVTTracks in the event
+    std::map<int, TCVTRecTrack> m_CVTRecTracks; // Map of TCVTTracks in the event. The Key is the index in the bank
     std::map<int, TBMTadc> m_BMTadcs; // Map of TBMTadcs in the event, where the key of the map is the index of the adc hit in the bank
     std::map<int, TBMTRecHit> m_BMTRecHits; // Map of TBMTRecHits in the event, where the key of the map is the hitID
     std::map<int, TBMTRecCluster> m_BMTRecClusters; // Map of TBMTRecClusters in the event, where the key of the map is the ID of the cluster
@@ -162,6 +172,7 @@ private:
     int ReadBank_BSTRec_Clusters();
     int ReadBank_BSTRec_Crosses();
 
+    int ReadBank_CVTRecTracks();
 };
 
 #endif /* TVERTEXEVENT_H */

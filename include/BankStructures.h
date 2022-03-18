@@ -197,11 +197,56 @@ private:
 };
 
 
-class TCVTTrack {
+class TCVTRecTrack {
 public:
-    TCVTTrack();
-    TCVTTrack(const TCVTTrack& orig);
-    virtual ~TCVTTrack();
+    TCVTRecTrack();
+    TCVTRecTrack(const TCVTRecTrack& orig);
+    virtual ~TCVTRecTrack();
+
+    int ID;
+    int fittingMethod; // fitting method (1 for global fit, 2 for Kalman Filter)
+    float c_x; // x-coordinate of a helical trk point extrapolated to a cylinder at 25 cm radius from the lab origin (cm unit)
+    float c_y; // y-coordinate of a helical trk point extrapolated to a cylinder at 25 cm radius from the lab origin (cm unit)
+    float c_z; // z-coordinate of a helical trk point extrapolated to a cylinder at 25 cm radius from the lab origin (cm unit)
+    float c_ux; // x-coordinate of a helical trk direction extrapolated to a cylinder at 25 cm radius from the lab origin (cm unit)"
+    float c_uy; // y-coordinate of a helical trk direction extrapolated to a cylinder at 25 cm radius from the lab origin (cm unit)"
+    float c_uz; // z-coordinate of a helical trk direction extrapolated to a cylinder at 25 cm radius from the lab origin (cm unit)"
+    float pathlength; // total pathlength from the origin to the reference point (in cm)"
+    int q; // charge
+    float p; // total momentum
+    float pt; // transverse momentum
+    float phi0; // phi0
+    float tandip; // this is probably tanLambda
+    float z0; // z0
+    float d0; // d0
+    float cov_d02; // helical track fit covariance matrix element : delta_d0^2
+    float cov_d0phi0; // helical track fit covariance matrix element : delta_d0.delta_phi
+    float cov_d0rho; // helical track fit covariance matrix element : delta_d0.delta_rho
+    float cov_phi02; // helical track fit covariance matrix element : delta_phi0^2
+    float cov_phi0rho; // helical track fit covariance matrix element : delta_phi0.delta_rho
+    float cov_rho2; // helical track fit covariance matrix element : delta_rho.delta_rho
+    float cov_z02; // helical track fit covariance matrix element : delta_z0^2
+    float cov_tandip2; // helical track fit covariance matrix element : delta_tandip^2
+    float circlefit_chi2_per_ndf; // Circle Fit chi^2/ndf
+    float linefit_chi2_per_ndf; // linefit_chi2_per_ndf
+    float chi2; // Fit chi^2 
+    int ndf; // Fit ndf 
+    int Cross1_ID; // ID of cross in the track
+    int Cross2_ID; // ID of cross in the track
+    int Cross3_ID; // ID of cross in the track
+    int Cross4_ID; // ID of cross in the track
+    int Cross5_ID; // ID of cross in the track
+    int Cross6_ID; // ID of cross in the track
+    int Cross7_ID; // ID of cross in the track
+    int Cross8_ID; // ID of cross in the track
+    int Cross9_ID; // ID of cross in the track
+    int seedID; // ID of track seed
+    float xb; // x Offset
+    float yb; // y Offset
+    int status; // track status : nabc (n = KF iterations a = nb SVT crosses, b = nb BMT Z clusters, c = nb BMT C clusters, used in fit)
+    
+    
+    
 private:
 
 };

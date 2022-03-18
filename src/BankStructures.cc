@@ -83,8 +83,8 @@ TBMTRecCluster::TBMTRecCluster() {
     seedE = -999;
     seedStrip = -999;
     centroid = -999;
-    centroidValue = -999;        // *
-    centroidError = -999;        // *
+    centroidValue = -999; // *
+    centroidError = -999; // *
     centroidResidual = -999;
     seedResidual = -999;
     Hit1_ID = -999;
@@ -93,29 +93,29 @@ TBMTRecCluster::TBMTRecCluster() {
     Hit4_ID = -999;
     Hit5_ID = -999;
     trkID = -999;
-    x1 = -999;       // *
-    y1 = -999;       // *
-    z1 = -999;       // *
-    x2 = -999;       // *
-    y2 = -999;       // *
-    z2 = -999;       // *
-    theta = -999;       // *
-    ax1 = -999;       // *
-    ay1 = -999;       // *
-    az1 = -999;       // *
-    ax2 = -999;       // *
-    ay2 = -999;       // *
-    az2 = -999;       // *
-    lx = -999;       // *
-    ly = -999;       // *
-    lz = -999;       // *
-    sx = -999;       // *
-    sy = -999;       // *
-    sz = -999;       // *
-    nx = -999;       // *
-    ny = -999;       // *
-    nz = -999;       // *
-    
+    x1 = -999; // *
+    y1 = -999; // *
+    z1 = -999; // *
+    x2 = -999; // *
+    y2 = -999; // *
+    z2 = -999; // *
+    theta = -999; // *
+    ax1 = -999; // *
+    ay1 = -999; // *
+    az1 = -999; // *
+    ax2 = -999; // *
+    ay2 = -999; // *
+    az2 = -999; // *
+    lx = -999; // *
+    ly = -999; // *
+    lz = -999; // *
+    sx = -999; // *
+    sy = -999; // *
+    sz = -999; // *
+    nx = -999; // *
+    ny = -999; // *
+    nz = -999; // *
+
     nHits = 0;
     v_Hits = std::vector <TCVTRecHit*>();
 }
@@ -159,11 +159,11 @@ TBMTRecCluster::TBMTRecCluster(const TBMTRecCluster& orig) {
     ly = orig.ly;
     lz = orig.lz;
     sx = orig.sx;
-    sy =  orig.sy;
-    sz =  orig.sz;
-    nx =  orig.nx;
-    ny =  orig.ny;
-    nz =  orig.nz;    
+    sy = orig.sy;
+    sz = orig.sz;
+    nx = orig.nx;
+    ny = orig.ny;
+    nz = orig.nz;
 }
 
 TBMTRecCluster::~TBMTRecCluster() {
@@ -210,7 +210,7 @@ TCVTRecCross::TCVTRecCross(const TCVTRecCross &orig) {
 
 }
 
-TCVTRecCross::~TCVTRecCross(){
+TCVTRecCross::~TCVTRecCross() {
 }
 
 TBSTRecCluster::TBSTRecCluster() {
@@ -224,7 +224,7 @@ TBSTRecCluster::TBSTRecCluster() {
     seedE = -999;
     seedStrip = -999;
     centroid = -999;
-    centroidError = -999;        // *
+    centroidError = -999; // *
     centroidResidual = -999;
     seedResidual = -999;
     Hit1_ID = -999;
@@ -233,26 +233,25 @@ TBSTRecCluster::TBSTRecCluster() {
     Hit4_ID = -999;
     Hit5_ID = -999;
     trkID = -999;
-    x1 = -999;       // *
-    y1 = -999;       // *
-    z1 = -999;       // *
-    x2 = -999;       // *
-    y2 = -999;       // *
-    z2 = -999;       // *
-    lx = -999;       // *
-    ly = -999;       // *
-    lz = -999;       // *
-    sx = -999;       // *
-    sy = -999;       // *
-    sz = -999;       // *
-    nx = -999;       // *
-    ny = -999;       // *
-    nz = -999;       // *
+    x1 = -999; // *
+    y1 = -999; // *
+    z1 = -999; // *
+    x2 = -999; // *
+    y2 = -999; // *
+    z2 = -999; // *
+    lx = -999; // *
+    ly = -999; // *
+    lz = -999; // *
+    sx = -999; // *
+    sy = -999; // *
+    sz = -999; // *
+    nx = -999; // *
+    ny = -999; // *
+    nz = -999; // *
     e = -999;
     nHits = 0;
     v_Hits = std::vector <TCVTRecHit*>();
 }
-
 
 TBSTRecCluster::TBSTRecCluster(const TBSTRecCluster& orig) {
     ID = orig.ID;
@@ -285,11 +284,11 @@ TBSTRecCluster::TBSTRecCluster(const TBSTRecCluster& orig) {
     ly = orig.ly;
     lz = orig.lz;
     sx = orig.sx;
-    sy =  orig.sy;
-    sz =  orig.sz;
-    nx =  orig.nx;
-    ny =  orig.ny;
-    nz =  orig.nz;    
+    sy = orig.sy;
+    sz = orig.sz;
+    nx = orig.nx;
+    ny = orig.ny;
+    nz = orig.nz;
     e = orig.e;
 }
 
@@ -300,11 +299,93 @@ TBSTRecCluster::~TBSTRecCluster() {
  *                                  TBMTRecCross
  */
 
-TCVTTrack::TCVTTrack() {
+TCVTRecTrack::TCVTRecTrack() {
+    int ID = -999;
+    int fittingMethod = -999; // fitting method (1 for global fit, 2 for Kalman Filter)
+    float c_x = -999; // x-coordinate of a helical trk point extrapolated to a cylinder at 25 cm radius from the lab origin (cm unit)
+    float c_y = -999; // y-coordinate of a helical trk point extrapolated to a cylinder at 25 cm radius from the lab origin (cm unit)
+    float c_z = -999; // z-coordinate of a helical trk point extrapolated to a cylinder at 25 cm radius from the lab origin (cm unit)
+    float c_ux = -999; // x-coordinate of a helical trk direction extrapolated to a cylinder at 25 cm radius from the lab origin (cm unit)"
+    float c_uy = -999; // y-coordinate of a helical trk direction extrapolated to a cylinder at 25 cm radius from the lab origin (cm unit)"
+    float c_uz = -999; // z-coordinate of a helical trk direction extrapolated to a cylinder at 25 cm radius from the lab origin (cm unit)"
+    float pathlength = -999; // total pathlength from the origin to the reference point (in cm)"
+    int q = -999; // charge
+    float p = -999; // total momentum
+    float pt = -999; // transverse momentum
+    float phi0 = -999; // phi0
+    float tandip = -999; // this is probably tanLambda
+    float z0 = -999; // z0
+    float d0 = -999; // d0
+    float cov_d02 = -999; // helical track fit covariance matrix element : delta_d0^2
+    float cov_d0phi0 = -999; // helical track fit covariance matrix element : delta_d0.delta_phi
+    float cov_d0rho = -999; // helical track fit covariance matrix element : delta_d0.delta_rho
+    float cov_phi02 = -999; // helical track fit covariance matrix element : delta_phi0^2
+    float cov_phi0rho = -999; // helical track fit covariance matrix element : delta_phi0.delta_rho
+    float cov_rho2 = -999; // helical track fit covariance matrix element : delta_rho.delta_rho
+    float cov_z02 = -999; // helical track fit covariance matrix element : delta_z0^2
+    float cov_tandip2 = -999; // helical track fit covariance matrix element : delta_tandip^2
+    float circlefit_chi2_per_ndf = -999; // Circle Fit chi^2/ndf
+    float linefit_chi2_per_ndf = -999; // linefit_chi2_per_ndf
+    float chi2 = -999; // Fit chi^2 
+    int ndf = -999; // Fit ndf 
+    int Cross1_ID = -999; // ID of cross in the track
+    int Cross2_ID = -999; // ID of cross in the track
+    int Cross3_ID = -999; // ID of cross in the track
+    int Cross4_ID = -999; // ID of cross in the track
+    int Cross5_ID = -999; // ID of cross in the track
+    int Cross6_ID = -999; // ID of cross in the track
+    int Cross7_ID = -999; // ID of cross in the track
+    int Cross8_ID = -999; // ID of cross in the track
+    int Cross9_ID = -999; // ID of cross in the track
+    int seedID = -999; // ID of track seed
+    float xb = -999; // x Offset
+    float yb = -999; // y Offset
+    int status = -999; // track status : nabc (n = KF iterations a = nb SVT crosses, b = nb BMT Z clusters, c = nb BMT C clusters, used in fit)
 }
 
-TCVTTrack::TCVTTrack(const TCVTTrack& orig) {
+TCVTRecTrack::TCVTRecTrack(const TCVTRecTrack& orig) {
+    ID = orig.ID;
+    fittingMethod = orig.fittingMethod;
+    c_x = orig.c_x;
+    c_y = orig.c_y;
+    c_z = orig.c_z;
+    c_ux = orig.c_ux;
+    c_uy = orig.c_uy;
+    c_uz = orig.c_uz;
+    pathlength = orig.pathlength;
+    q = orig.q;
+    p = orig.p;
+    pt = orig.pt;
+    phi0 = orig.phi0;
+    tandip = orig.tandip;
+    z0 = orig.z0;
+    d0 = orig.d0;
+    cov_d02 = orig.cov_d02;
+    cov_d0phi0 = orig.cov_d0phi0;
+    cov_d0rho = orig.cov_d0rho;
+    cov_phi02 = orig.cov_phi02;
+    cov_phi0rho = orig.cov_phi0rho;
+    cov_rho2 = orig.cov_rho2;
+    cov_z02 = orig.cov_z02;
+    cov_tandip2 = orig.cov_tandip2;
+    circlefit_chi2_per_ndf = orig.circlefit_chi2_per_ndf;
+    linefit_chi2_per_ndf = orig.linefit_chi2_per_ndf;
+    chi2 = orig.chi2;
+    ndf = orig.ndf;
+    Cross1_ID = orig.Cross1_ID;
+    Cross2_ID = orig.Cross2_ID;
+    Cross3_ID = orig.Cross3_ID;
+    Cross4_ID = orig.Cross4_ID;
+    Cross5_ID = orig.Cross5_ID;
+    Cross6_ID = orig.Cross6_ID;
+    Cross7_ID = orig.Cross7_ID;
+    Cross8_ID = orig.Cross8_ID;
+    Cross9_ID = orig.Cross9_ID;
+    seedID = orig.seedID;
+    xb = orig.xb;
+    yb = orig.yb;
+    status = orig.status;
 }
 
-TCVTTrack::~TCVTTrack() {
+TCVTRecTrack::~TCVTRecTrack() {
 }

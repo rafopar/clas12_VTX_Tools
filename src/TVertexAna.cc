@@ -30,9 +30,11 @@ void TVertexAna::InitDictionary(hipo::dictionary &aDict) {
     bBMTRec_Clusters = hipo::bank(fDict.getSchema("BMTRec::Clusters"));
     bBMTRec_Crosses = hipo::bank(fDict.getSchema("BMTRec::Crosses"));
     bBST_adc = hipo::bank(fDict.getSchema("BST::adc"));
-    bBSTRec_Hits = hipo::bank(fDict.getSchema("BBSTRec::Hits"));
+    bBSTRec_Hits = hipo::bank(fDict.getSchema("BSTRec::Hits"));
     bBSTRec_Clusters = hipo::bank(fDict.getSchema("BSTRec::Clusters"));
     bBSTRec_Crosses = hipo::bank(fDict.getSchema("BSTRec::Crosses"));
+    
+    bCVTRec_Tracks = hipo::bank(fDict.getSchema("CVTRec::Tracks"));
 }
 
 void TVertexAna::ReadEvent(hipo::event &ev) {
@@ -47,9 +49,8 @@ void TVertexAna::ReadEvent(hipo::event &ev) {
     /*
      * Cleaning everything from previous event
      */
-    v_CVTTracks.clear();
-    v_CVTTracks.shrink_to_fit();
 
+    
     m_BMTadcs.clear();
     m_BMTRecHits.clear();
     m_BMTRecClusters.clear();
@@ -60,6 +61,8 @@ void TVertexAna::ReadEvent(hipo::event &ev) {
     m_BSTRecClusters.clear();
     m_BSTRecCrosses.clear();
 
+    m_CVTRecTracks.clear();
+    
     nBMTadc = ReadBank_BMT_adc();
     nBMTRecHits = ReadBank_BMTRec_Hits();
     nBMTRecClusters = ReadBank_BMTRec_Clusters();
@@ -69,6 +72,8 @@ void TVertexAna::ReadEvent(hipo::event &ev) {
     nBSTRecHits = ReadBank_BSTRec_Hits();
     nBSTRecClusters = ReadBank_BSTRec_Clusters();
     nBSTCrosses = ReadBank_BSTRec_Crosses();
+    
+    nCVTRecTracks =  ReadBank_CVTRecTracks();
 }
 
 int TVertexAna::ReadBank_BMT_adc() {
@@ -238,7 +243,7 @@ int TVertexAna::ReadBank_BSTRec_Hits() {
         curBSTRecHit.clusterID = bBMTRec_Hits.getInt("clusterID", i);
         curBSTRecHit.fitResidual = bBMTRec_Hits.getFloat("fitResidual", i);
         curBSTRecHit.layer = bBMTRec_Hits.getInt("layer", i);
-        curBSTRecHit.sector = bBMTRec_Hits.getInt("layer", i);
+        curBSTRecHit.sector = bBMTRec_Hits.getInt("sector", i);
         curBSTRecHit.strip = bBMTRec_Hits.getInt("strip", i);
         curBSTRecHit.trkID = bBMTRec_Hits.getInt("trkID", i);
         curBSTRecHit.trkingStat = bBMTRec_Hits.getInt("trkingStat", i);
@@ -325,6 +330,61 @@ int TVertexAna::ReadBank_BSTRec_Crosses() {
     }
 
     return nBSTCrosses;
+}
+
+int TVertexAna::ReadBank_CVTRecTracks(){
+    fEv->getStructure(bCVTRec_Tracks);
+    
+    nCVTRecTracks = bCVTRec_Tracks.getRows();
+    
+    for( int i = 0; i < nCVTRecTracks; i++ ){
+        TCVTRecTrack curRecTrack;
+        curRecTrack.Cross1_ID = bCVTRec_Tracks.getInt("Cross1_ID", i);
+        curRecTrack.Cross2_ID = bCVTRec_Tracks.getInt("Cross2_ID", i);
+        curRecTrack.Cross3_ID = bCVTRec_Tracks.getInt("Cross3_ID", i);
+        curRecTrack.Cross4_ID = bCVTRec_Tracks.getInt("Cross4_ID", i);
+        curRecTrack.Cross5_ID = bCVTRec_Tracks.getInt("Cross5_ID", i);
+        curRecTrack.Cross6_ID = bCVTRec_Tracks.getInt("Cross6_ID", i);
+        curRecTrack.Cross7_ID = bCVTRec_Tracks.getInt("Cross7_ID", i);
+        curRecTrack.Cross8_ID = bCVTRec_Tracks.getInt("Cross8_ID", i);
+        curRecTrack.Cross9_ID = bCVTRec_Tracks.getInt("Cross9_ID", i);
+        curRecTrack.ID = bCVTRec_Tracks.getInt("ID", i);
+        curRecTrack.c_ux = bCVTRec_Tracks.getFloat("c_ux", i);
+        curRecTrack.c_uy = bCVTRec_Tracks.getFloat("c_uy", i);
+        curRecTrack.c_uz = bCVTRec_Tracks.getFloat("c_uz", i);
+        curRecTrack.c_x = bCVTRec_Tracks.getFloat("c_x", i);
+        curRecTrack.c_y = bCVTRec_Tracks.getFloat("c_y", i);
+        curRecTrack.c_z = bCVTRec_Tracks.getFloat("c_z", i);
+        curRecTrack.chi2 = bCVTRec_Tracks.getFloat("chi2", i);
+        curRecTrack.circlefit_chi2_per_ndf = bCVTRec_Tracks.getFloat("circlefit_chi2_per_ndf", i);
+        curRecTrack.cov_d02 = bCVTRec_Tracks.getFloat("cov_d02", i);
+        curRecTrack.cov_d0phi0 = bCVTRec_Tracks.getFloat("cov_d0phi0", i);
+        curRecTrack.cov_d0rho = bCVTRec_Tracks.getFloat("cov_d0rho", i);
+        curRecTrack.cov_phi02 = bCVTRec_Tracks.getFloat("cov_phi02", i);
+        curRecTrack.cov_phi0rho = bCVTRec_Tracks.getFloat("cov_phi0rho", i);
+        curRecTrack.cov_rho2 = bCVTRec_Tracks.getFloat("cov_rho2", i);
+        curRecTrack.cov_tandip2 = bCVTRec_Tracks.getFloat("cov_tandip2", i);
+        curRecTrack.cov_z02 = bCVTRec_Tracks.getFloat("cov_z02", i);
+        curRecTrack.d0 = bCVTRec_Tracks.getFloat("d0", i);
+        curRecTrack.fittingMethod = bCVTRec_Tracks.getInt("fittingMethod", i);
+        curRecTrack.linefit_chi2_per_ndf = bCVTRec_Tracks.getFloat("linefit_chi2_per_ndf", i);
+        curRecTrack.ndf = bCVTRec_Tracks.getInt("ndf", i);
+        curRecTrack.p = bCVTRec_Tracks.getFloat("p", i);
+        curRecTrack.pathlength = bCVTRec_Tracks.getFloat("pathlength", i);
+        curRecTrack.phi0 = bCVTRec_Tracks.getFloat("phi0", i);
+        curRecTrack.pt = bCVTRec_Tracks.getFloat("pt", i);
+        curRecTrack.q = bCVTRec_Tracks.getInt("q", i);
+        curRecTrack.seedID = bCVTRec_Tracks.getInt("seedID", i);
+        curRecTrack.status = bCVTRec_Tracks.getInt("status", i);
+        curRecTrack.tandip = bCVTRec_Tracks.getFloat("tandip", i);
+        curRecTrack.xb = bCVTRec_Tracks.getFloat("xb", i);
+        curRecTrack.yb = bCVTRec_Tracks.getFloat("yb", i);
+        curRecTrack.z0 = bCVTRec_Tracks.getFloat("z0", i);
+        
+        m_CVTRecTracks[curRecTrack.ID] = curRecTrack;
+    }
+    
+    return nCVTRecTracks;
 }
 
 
